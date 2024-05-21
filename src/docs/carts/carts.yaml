@@ -1,0 +1,233 @@
+paths:
+  /api/carts:
+    post:
+      summary: Crea un nuevo carrito
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Se creo el carrito correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "500":
+          description: Error interno del servidor
+
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene un solo Carrito por ID
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: id del Carrito que se quiere buscar
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Carrito encontrado
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "500":
+          description: Error interno del servidor
+    put:
+      summary: Actualizar el carrito por id
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Actualizar carrito
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/updateCart"
+      responses:
+        "200":
+          description: Carrito actualizado correctamente
+        "404":
+          description: Carrito no encontrado
+        "500":
+          description: Error interno del servidor
+    delete:
+      summary: Eliminar Carrito por id
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Eliminar carrito
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/deleteCart"
+      responses:
+        "200":
+          description: Carrito Eliminar correctamente
+        "404":
+          description: Carrito no se pudo Eliminar
+        "500":
+          description: Error interno del servidor
+
+  /api/carts/:cid/product/:pid:
+    post:
+      summary: Agrega un producto por id a un carrito especifico por id
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Se agrego el producto al carrito correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "500":
+          description: Error interno del servidor
+
+    delete:
+      summary: Se elimina un producto por id a un carrito especifico por id
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Se elimino el producto del carrito correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "500":
+          description: Error interno del servidor
+
+    put:
+      summary: Actualiza por id un producto de un carrito especifico por id
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Se Actualizo el producto en el  carrito correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "500":
+          description: Error interno del servidor
+  /api/carts/:cid/purchase:
+    post:
+      summary: Concreta la compra
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Se concreta la compra
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Cart"
+        "500":
+          description: Error interno del servidor
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        product:
+          type: array
+          description: Se almacenan productos aca
+        quantity:
+          type: number
+          description: Numero de productos en el carrito
+
+      example:
+        product:
+          _id: ObjectId('123456')
+          title: Bicicleta single speed
+          description: bicicleta rodado 700
+          price: 30.000
+          code: 2000
+          stock: 10
+          category: Bicicletas
+          status: true
+
+        quantity: 2000
+
+  requestBodies:
+    createCart:
+      type: object
+      properties:
+        product:
+          type: array
+          description: Se almacenan productos aca
+        quantity:
+          type: number
+          description: Numero de productos en el carrito
+      example:
+        product: {}
+        quantity: 2000
+    updateCart:
+      type: object
+      properties:
+        product:
+          type: array
+          description: Se almacenan productos aca
+        quantity:
+          type: number
+          description: Numero de productos en el carrito
+      example:
+        product:
+          _id: ObjectId('123456')
+          title: Bicicleta single speed
+          description: bicicleta rodado 700
+          price: 30.000
+          code: 2000
+          stock: 10
+          category: Bicicletas
+          status: true
+        quantity: 2000
+
+    deleteCart:
+      type: object
+      properties:
+        product:
+          type: array
+          description: Se almacenan productos aca
+        quantity:
+          type: number
+          description: Numero de productos en el carrito
+      example:
+        product:
+          _id: ObjectId('123456')
+          title: Bicicleta single speed
+          description: bicicleta rodado 700
+          price: 30.000
+          code: 2000
+          stock: 10
+          category: Bicicletas
+          status: true
+        quantity: 2000
